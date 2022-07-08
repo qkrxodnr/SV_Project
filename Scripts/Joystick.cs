@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler // , IPointerDownHandler
+public class Joystick : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
 {
     private Image joyOut; // 조이스틱 바깥부분 이미지 전역변수 선언
     private Image joyIn; // 조이스틱 안쪽부분  이미지 전역변수 선언
@@ -35,7 +35,7 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler // , IPoi
         }
     }
     // 터치 하고 있을때 발생하는 함수
-    public virtual void OnPointDown(PointerEventData ped)
+    public virtual void OnPointerDown(PointerEventData ped)
     {
         OnDrag(ped);
     }

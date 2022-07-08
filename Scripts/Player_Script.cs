@@ -11,6 +11,10 @@ public class Player_Script : MonoBehaviour
     private Transform _transform;
 
     bool isdash;
+
+    public int Player_Health;
+    public int Player_Power;
+
     void Start()
     {
         _transform = transform;    // Transform 캐싱
@@ -19,6 +23,8 @@ public class Player_Script : MonoBehaviour
 
     void Update()
     {
+        if (Player_Health <= 0)              // 플레이어 체력 0보다 낮을시 삭제
+            Destroy(this.gameObject);
         HandleInput(); // 터치패드 입력받기
     }
 
@@ -46,5 +52,10 @@ public class Player_Script : MonoBehaviour
         _transform.Translate(_moveVector * MoveSpeed * Time.deltaTime);
     }
 
+    void OnTriggerEnter2D(Collider2D col) // 몬스터가 player 총알을 맞으면 체력 1 낮아짐.
+    {
+        if (col.gameObject.tag == "Monster_bullet")
+            Player_Health -= 1;
+    }
 
 }

@@ -4,42 +4,37 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class Player_Gun : MonoBehaviour, IDragHandler, IPointerUpHandler // , IPointerDownHandler
+public class Player_Gun : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
 {
-    private Image joyOut; // 조이스틱 바깥부분 이미지 전역변수 선언
-    private Image joyIn; // 조이스틱 안쪽부분  이미지 전역변수 선언
-    private Vector3 inputVector; // 이동 벡터값 전역변수 선언
-    public GameObject bulletObj;
-    public Transform Muzzle_Transform;
-    public bool isFire;
-    private float FireCoolTime = 0.5f;
-    public float FireLeftTime;
-
-    public Vector3 _moveVector; // 총알 이동 벡터
-    public float BulletSpeed;     // 총알 속도
+    private Image joyOut;       // 총알 방향 조이스틱 바깥부분 이미지
+    private Image joyIn;        // 총알 방향 조이스틱 안쪽부분  이미지
+    private Vector3 inputVector; // 총알 이동 벡터값
+    public GameObject bulletObj; // 총알 프리팹
+    public Transform Muzzle_Transform; // 총구 위치
+    private bool isFire;         // 총쏘고 쿨타임 중인지
+    private float FireCoolTime = 0.5f; // 총 쿨타임
+    private float FireLeftTime;         // 총 쿨타임 남은시간
+    public float BulletSpeed;       // 총알 속도
+    public GameObject player;
 
     void Start()
     {
         joyOut = GetComponent<Image>();
         joyIn = transform.GetChild(0).GetComponent<Image>();
-
-        
     }
 
     void FixedUpdate()
     {
-        HandleInput(); // 터치패드 입력받기
-        FireLeftTime -= Time.deltaTime;
-        if (FireLeftTime <= 0)
+        FireLeftTime -= Time.deltaTime; // 총 쿨타임 계속 업데이트
+        if (FireLeftTime <= 0)          // 만약 총 쿨타임 남은시간이 0 이하라면 총 쏠 준비 완료
         {
             isFire = false;
         }
-        Fire();
-        
-        
+        Fire();             // 계속 Fire()함수 실행
     }
 
-    public virtual void OnDrag(PointerEventData ped) //조이스틱을 누르고 있을 때 실행할 함수
+    //조이스틱을 누르고 있을 때 실행할 함수
+    public virtual void OnDrag(PointerEventData ped) 
     {
         Vector2 pos;
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(joyOut.rectTransform, ped.position, ped.pressEventCamera, out pos)) // 조이스틱 바깥부분에 터치 발생시 실행
@@ -53,16 +48,13 @@ public class Player_Gun : MonoBehaviour, IDragHandler, IPointerUpHandler // , IP
             // 변환한 단위벡터를 이용해 조이스틱 안쪽부분 이동
             joyIn.rectTransform.anchoredPosition = new Vector3(inputVector.x * (joyOut.rectTransform.sizeDelta.x / 3)
                                                                 , inputVector.y * (joyOut.rectTransform.sizeDelta.y / 3));
-
         }
     }
 
     // 터치 하고 있을때 발생하는 함수
-    public virtual void OnPointDown(PointerEventData ped)
+    public virtual void OnPointerDown(PointerEventData ped)
     {
-
         OnDrag(ped);
-
     }
 
     // 터치를 중지했을때 발생하는 함수 (위치 초기화)
@@ -72,64 +64,28 @@ public class Player_Gun : MonoBehaviour, IDragHandler, IPointerUpHandler // , IP
         joyIn.rectTransform.anchoredPosition = Vector3.zero;
     }
 
-    // Player를 이동시키기 위해 사용할 리턴함수
-    public float GetHorizontalValue() { return inputVector.x; }
-
-    public float GetVerticalValue() { return inputVector.y; }
-
-    
-
-    public void HandleInput()
-    {
-        _moveVector = PoolInput();
-    }
-
-    public Vector3 PoolInput()
-    {
-        float h = GetHorizontalValue();
-        float v = GetVerticalValue();
-        Vector3 moveDir = new Vector3(h, v, 0).normalized;
-
-        return moveDir;
-    }
-
+    // 총알 발사하는 함수
     void Fire()
     {
-        if (isFire is false)
+        if (isFire is false) // 총 발사중이 아닐때
         {
-            isFire = true;
-
-            if (FireLeftTime <= 0)
+            isFire = true;   // 총 발사중으로 업데이트
+            if (FireLeftTime <= 0) // 만약 총 쏠 준비가 되면
             {
-
-                Vector3 myPos = new Vector3(Muzzle_Transform.position.x, Muzzle_Transform.position.y, 0);
-                if (inputVector.x == 0 & inputVector.y == 0)
-                {
-
-                }
-                else
+                Vector3 myPos = new Vector3(Muzzle_Transform.position.x, Muzzle_Transform.position.y, 0); // 총구 위치
+                if (inputVector.x != 0 | inputVector.y != 0) // 조이스틱이 가만히 있지 않을때 발사
                 {
                     Debug.Log("발사");
-                    
-                    GameObject bullet = Instantiate(bulletObj, myPos, Quaternion.identity);
-                    Transform Bullet_Transform = bullet.GetComponent<Transform>();
-                    Move(Bullet_Transform);
-                    FireLeftTime = FireCoolTime;
+                    GameObject bullet = Instantiate(bulletObj, myPos, Quaternion.identity); // 프리팹 인스턴스화
+                    Rigidbody2D rigid = bullet.GetComponent<Rigidbody2D>();    // 만들어진 프리팹의 Rigidbody 가져오기
+                    float h = inputVector.x;                    // 총알 날아갈 방향 정해주기
+                    float v = inputVector.y;
+                    Vector3 moveDir = new Vector3(h, v, 0).normalized; // 정규화
+                    rigid.AddForce(moveDir * BulletSpeed, ForceMode2D.Impulse);  // 날아가기
+                    FireLeftTime = FireCoolTime;                // 쿨타임 재설정
+
                 }
-
-
             }
-
         }
-        else
-        {
-            return;
-        }
-
-    }
-
-    void Move(Transform a)
-    {
-        a.Translate(_moveVector * BulletSpeed * Time.deltaTime);
     }
 }
