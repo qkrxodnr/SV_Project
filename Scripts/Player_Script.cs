@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player_Script : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class Player_Script : MonoBehaviour
 
     public int Player_Health;
     public int Player_Power;
+    public int Player_AttackSpeed;
 
     void Start()
     {
@@ -23,8 +25,11 @@ public class Player_Script : MonoBehaviour
 
     void Update()
     {
-        if (Player_Health <= 0)              // 플레이어 체력 0보다 낮을시 삭제
+        if (Player_Health <= 0)
+        {
             Destroy(this.gameObject);
+            SceneManager.LoadScene("GameOver");
+        }
         HandleInput(); // 터치패드 입력받기
     }
 

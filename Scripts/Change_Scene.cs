@@ -8,6 +8,6 @@ public class Change_Scene : MonoBehaviour
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.tag == "Player")     // 플레이어와 충돌시
-            SceneManager.LoadScene("New Scene");
+            SceneManager.LoadScene("DunGeon 1");
     }
 }

@@ -16,6 +16,7 @@ public class Player_Gun : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoi
     private float FireLeftTime;         // 총 쿨타임 남은시간
     public float BulletSpeed;       // 총알 속도
     public GameObject player;
+    public Player_Script _player;
 
     void Start()
     {
@@ -23,14 +24,23 @@ public class Player_Gun : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoi
         joyIn = transform.GetChild(0).GetComponent<Image>();
     }
 
+    void Update()
+    {
+        if (_player.Player_Health <= 0)
+            return;
+    }
+
     void FixedUpdate()
     {
-        FireLeftTime -= Time.deltaTime; // 총 쿨타임 계속 업데이트
-        if (FireLeftTime <= 0)          // 만약 총 쿨타임 남은시간이 0 이하라면 총 쏠 준비 완료
+        if (_player.Player_Health > 0)
         {
-            isFire = false;
+            FireLeftTime -= Time.deltaTime; // 총 쿨타임 계속 업데이트
+            if (FireLeftTime <= 0)          // 만약 총 쿨타임 남은시간이 0 이하라면 총 쏠 준비 완료
+            {
+                isFire = false;
+            }
+            Fire();             // 계속 Fire()함수 실행
         }
-        Fire();             // 계속 Fire()함수 실행
     }
 
     //조이스틱을 누르고 있을 때 실행할 함수
