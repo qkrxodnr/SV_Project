@@ -12,14 +12,16 @@ public class Text_Manager_Script : MonoBehaviour
 
     string hp;          // 텍스트는 string으로 해야하기 때문에
     string pow;
-
+    string mon;
+    
     void Update()
     {
         hp = _player.Player_Health.ToString();
-        pow = _player.Player_Power.ToString();
-        status_ui.text = "HP: " + hp + "    Power: " + pow; ;         // 캐릭터 상태 업데이트
+        pow = Data_Control.data.Player_Power.ToString();
+        mon = Data_Control.data.Money.ToString();
+        status_ui.text = "HP: " + hp + "    Power: " + pow + "    Money: " + mon;        // 캐릭터 상태 업데이트
 
         Scene scene = SceneManager.GetActiveScene(); 
-        StageName.text = "Stage: " + scene.name;                      // Stage 이름 업데이트
+        StageName.text = scene.name;                      // Stage 이름 업데이트
     }
 }

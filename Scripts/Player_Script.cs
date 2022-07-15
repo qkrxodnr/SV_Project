@@ -11,11 +11,9 @@ public class Player_Script : MonoBehaviour
     private Vector3 _moveVector; // 플레이어 이동 벡터
     private Transform _transform;
 
-    bool isdash;
+    public int Player_Health;        // 플레이어 체력
 
-    public int Player_Health;
-    public int Player_Power;
-    public int Player_AttackSpeed;
+    public RandomMoveMonster monster;
 
     void Start()
     {
@@ -28,7 +26,7 @@ public class Player_Script : MonoBehaviour
         if (Player_Health <= 0)
         {
             Destroy(this.gameObject);
-            SceneManager.LoadScene("GameOver");
+            SceneManager.LoadScene("Home");
         }
         HandleInput(); // 터치패드 입력받기
     }
@@ -57,10 +55,10 @@ public class Player_Script : MonoBehaviour
         _transform.Translate(_moveVector * MoveSpeed * Time.deltaTime);
     }
 
-    void OnTriggerEnter2D(Collider2D col) // 몬스터가 player 총알을 맞으면 체력 1 낮아짐.
+    void OnTriggerEnter2D(Collider2D col) // 플레이어가 몬스터 총알을 맞으면 몬스터 공격력만큼 체력 낮아짐
     {
         if (col.gameObject.tag == "Monster_bullet")
-            Player_Health -= 1;
+            monster.AttakPlayer();
     }
 
 }

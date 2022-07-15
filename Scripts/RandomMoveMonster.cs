@@ -11,8 +11,10 @@ public class RandomMoveMonster : MonoBehaviour
     public Transform target;
     private int Count, AttackCount; // 발사 횟수 설정을 위한 변수
     public GameObject player;
-
-    public int Monster_Health;
+    public Player_Script _player;
+    public int Monster_Health; // 몬스터 체력
+    public int Monster_Power;  // 몬스터 공격력
+    public int Monster_Money;  // 몬스터가 주는 돈
 
     void Start()
     {
@@ -24,7 +26,11 @@ public class RandomMoveMonster : MonoBehaviour
     void Update()
     {
         if (Monster_Health <= 0)              // 몬스터 체력 0보다 낮을시 삭제
+        {
             Destroy(this.gameObject);
+            Data_Control.data.Money += Monster_Money;
+        }
+            
         Moving(); // 이동함수
     }
 
@@ -80,8 +86,12 @@ public class RandomMoveMonster : MonoBehaviour
         if (col.gameObject.tag == "Player_bullet")   // 몬스터가 player 총알을 맞으면 플레이어 공격력만큼 체력 낮아짐.
         {
             Player_Script _player = player.GetComponent<Player_Script>();
-            Monster_Health -= _player.Player_Power;
+            Monster_Health -= Data_Control.data.Player_Power;
         }
     }
 
+    public void AttakPlayer()
+    {
+        _player.Player_Health -= Monster_Power;
+    }
 }
