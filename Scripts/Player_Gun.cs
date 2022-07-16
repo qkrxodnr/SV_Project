@@ -12,7 +12,6 @@ public class Player_Gun : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoi
     public GameObject bulletObj; // 총알 프리팹
     public Transform Muzzle_Transform; // 총구 위치
     private bool isFire;         // 총쏘고 쿨타임 중인지
-    private float FireCoolTime = 0.5f; // 총 쿨타임
     private float FireLeftTime;         // 총 쿨타임 남은시간
     public float BulletSpeed;       // 총알 속도
     public GameObject player;
@@ -26,13 +25,13 @@ public class Player_Gun : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoi
 
     void Update()
     {
-        if (_player.Player_Health <= 0)
+        if (Data_Control.data.Player_Health <= 0)
             return;
     }
 
     void FixedUpdate()
     {
-        if (_player.Player_Health > 0)
+        if (Data_Control.data.Player_Health > 0)
         {
             FireLeftTime -= Time.deltaTime; // 총 쿨타임 계속 업데이트
             if (FireLeftTime <= 0)          // 만약 총 쿨타임 남은시간이 0 이하라면 총 쏠 준비 완료
@@ -92,7 +91,7 @@ public class Player_Gun : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoi
                     float v = inputVector.y;
                     Vector3 moveDir = new Vector3(h, v, 0).normalized; // 정규화
                     rigid.AddForce(moveDir * BulletSpeed, ForceMode2D.Impulse);  // 날아가기
-                    FireLeftTime = FireCoolTime;                // 쿨타임 재설정
+                    FireLeftTime = Data_Control.data.FireCoolTime;                // 쿨타임 재설정
 
                 }
             }

@@ -11,7 +11,6 @@ public class RandomMoveMonster : MonoBehaviour
     public Transform target;
     private int Count, AttackCount; // 발사 횟수 설정을 위한 변수
     public GameObject player;
-    public Player_Script _player;
     public int Monster_Health; // 몬스터 체력
     public int Monster_Power;  // 몬스터 공격력
     public int Monster_Money;  // 몬스터가 주는 돈
@@ -92,6 +91,6 @@ public class RandomMoveMonster : MonoBehaviour
 
     public void AttakPlayer()
     {
-        _player.Player_Health -= Monster_Power;
+        Data_Control.data.Player_Health -= Monster_Power;
     }
 }

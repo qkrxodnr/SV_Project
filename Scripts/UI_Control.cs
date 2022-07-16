@@ -10,4 +10,9 @@ public class UI_Control : MonoBehaviour
         Debug.Log("게임 시작");
         SceneManager.LoadScene("Home");
     }
+
+    public void OnClickHeal()
+    {
+        Data_Control.data.Player_Health = Data_Control.data.Max_Player_Health;
+    }
 }

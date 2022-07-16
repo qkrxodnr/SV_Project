@@ -11,8 +11,6 @@ public class Player_Script : MonoBehaviour
     private Vector3 _moveVector; // 플레이어 이동 벡터
     private Transform _transform;
 
-    public int Player_Health;        // 플레이어 체력
-
     public RandomMoveMonster monster;
 
     void Start()
@@ -23,10 +21,10 @@ public class Player_Script : MonoBehaviour
 
     void Update()
     {
-        if (Player_Health <= 0)
+        if (Data_Control.data.Player_Health <= 0)
         {
-            Destroy(this.gameObject);
             SceneManager.LoadScene("Home");
+            Data_Control.data.Player_Health = Data_Control.data.Max_Player_Health;
         }
         HandleInput(); // 터치패드 입력받기
     }
