@@ -14,10 +14,6 @@ public class Text_Manager_Script : MonoBehaviour
 
     public TextMeshProUGUI StageName;  // Stage 이름을 작성하기 위한 선언
 
-    public TextMeshProUGUI Health_Cost;  // Health 업그레이드  Cost 텍스트
-    public TextMeshProUGUI Power_Cost;
-    string hc; // Health_Cost
-    string pc; // Power_Cost
     void Update()
     {
         max_hp = Data_Control.data.Max_Player_Health.ToString();
@@ -28,11 +24,5 @@ public class Text_Manager_Script : MonoBehaviour
 
         Scene scene = SceneManager.GetActiveScene(); 
         StageName.text = scene.name;                      // Stage 이름 업데이트
-
-        hc = Data_Control.data.Health_NeedMoney.ToString();     // Health_Cost 업데이트
-        Health_Cost.text = "Cost: " + hc;
-
-        pc = Data_Control.data.Power_NeedMoney.ToString();     // Power_Cost 업데이트
-        Power_Cost.text = "Cost: " + pc;
     }
 }

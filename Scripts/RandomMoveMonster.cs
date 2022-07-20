@@ -29,7 +29,7 @@ public class RandomMoveMonster : MonoBehaviour
             Destroy(this.gameObject);
             Data_Control.data.Money += Monster_Money;
         }
-            
+
         Moving(); // 이동함수
     }
 
@@ -80,12 +80,15 @@ public class RandomMoveMonster : MonoBehaviour
         else Invoke("Fire", 0.3f); // 0.3초마다 재귀하여 발사함
     }
 
-    void OnTriggerEnter2D(Collider2D col) 
+    void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.tag == "Player_bullet")   // 몬스터가 player 총알을 맞으면 플레이어 공격력만큼 체력 낮아짐.
         {
             Player_Script _player = player.GetComponent<Player_Script>();
             Monster_Health -= Data_Control.data.Player_Power;
+
+            Vector3 pos = Camera.main.WorldToScreenPoint(col.transform.position);
+            FloatingText.Instance.CreateDamageText(pos);
         }
     }
 

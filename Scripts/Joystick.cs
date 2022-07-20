@@ -18,8 +18,6 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoint
 
     public virtual void OnDrag(PointerEventData ped) //조이스틱을 누르고 있을 때 실행할 함수
     {
-        Debug.Log("Joystick Move");
-
         Vector2 pos;
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(joyOut.rectTransform, ped.position, ped.pressEventCamera, out pos)) // 조이스틱 바깥부분에 터치 발생시 실행
         {

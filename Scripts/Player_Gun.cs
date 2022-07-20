@@ -84,7 +84,6 @@ public class Player_Gun : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoi
                 Vector3 myPos = new Vector3(Muzzle_Transform.position.x, Muzzle_Transform.position.y, 0); // 총구 위치
                 if (inputVector.x != 0 | inputVector.y != 0) // 조이스틱이 가만히 있지 않을때 발사
                 {
-                    Debug.Log("발사");
                     GameObject bullet = Instantiate(bulletObj, myPos, Quaternion.identity); // 프리팹 인스턴스화
                     Rigidbody2D rigid = bullet.GetComponent<Rigidbody2D>();    // 만들어진 프리팹의 Rigidbody 가져오기
                     float h = inputVector.x;                    // 총알 날아갈 방향 정해주기
