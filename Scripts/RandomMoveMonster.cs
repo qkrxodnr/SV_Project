@@ -88,7 +88,7 @@ public class RandomMoveMonster : MonoBehaviour
             Monster_Health -= Data_Control.data.Player_Power;
 
             Vector3 pos = Camera.main.WorldToScreenPoint(col.transform.position);
-            FloatingText.Instance.CreateDamageText(pos);
+            FloatingText_Monster.Instance.CreateDamageText(pos);
         }
     }
 

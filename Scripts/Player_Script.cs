@@ -56,7 +56,11 @@ public class Player_Script : MonoBehaviour
     void OnTriggerEnter2D(Collider2D col) // 플레이어가 몬스터 총알을 맞으면 몬스터 공격력만큼 체력 낮아짐
     {
         if (col.gameObject.tag == "Monster_bullet")
+        {
             monster.AttakPlayer();
-    }
 
+            Vector3 pos = Camera.main.WorldToScreenPoint(col.transform.position);
+            FloatingText_Player.Instance.CreateDamageText(pos, monster.Monster_Power);
+        }
+    }
 }
