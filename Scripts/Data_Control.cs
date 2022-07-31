@@ -12,6 +12,7 @@ public class Data_Control : MonoBehaviour
     public float FireCoolTime = 0.5f;     // 플레이어 공격속도
     public int Health_NeedMoney = 100;
     public int Power_NeedMoney = 100;
+    public bool Gun_Up = false;
 
     void Awake()  // 오브젝트가 씬에 하나만 있도록 구현
     {

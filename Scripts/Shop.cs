@@ -45,6 +45,8 @@ public class Shop : MonoBehaviour
             Data_Control.data.Money -= 10000;
             Data_Control.data.FireCoolTime -= 0.25f;
             gu2.SetActive(false);
+
+            Data_Control.data.Gun_Up = true;
         }
     }
 }
